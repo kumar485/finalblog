@@ -1,0 +1,10 @@
+{% extends "blogs/base.html" %}
+<h2>Posts</h2>
+{% block content %}
+  {{o.title}}<br>
+  {{o.content}}<br>
+  {{o.date_post}}<br>
+  {{o.author}}<br><br>
+<button><a href="{% url 'postupdate' o.id %}">Update</a></button>
+<button><a href="{% url 'postdelete' o.id %}">Delete</a></button>
+{% endblock %}

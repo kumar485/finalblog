@@ -1,0 +1,54 @@
+{% extends "blogs/base.html" %}
+<h2>Posts</h2>
+{% block content %}
+{% for o in posts %}
+<div>
+  <img src="https://source.unsplash.com/random/850x400">
+</div>
+<!-- <div class="jumbotron">
+  <img src="{{o.author.profile.image.url}}" width= 24px height=24 px class='img-rounded'>
+  <br>
+ <b> <a href="{% url 'postsdetail' o.id %}">{{o.title}}</a></b>
+  {{o.content}}<br>
+  <br>
+  Posted Date {{o.date_post|date}}<br>
+  <br>
+  Author  {{o.author}}
+  <br>
+  <br>
+  </div> -->
+  <article class="media content-section">
+    <img src="{{o.author.profile.image.url}}" class="rounded-circle article-img"/>
+          <div class="media-body">
+            <div class="article-metadata">
+              <a g="mr-2" href="#">{{ o.author }}</a>
+              <small class="text-muted">{{ o.date_post}}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'postsdetail' o.id %}">{{ o.title }}</a></h2>
+            <p class="article-content">{{ o.content }}</p>
+          </div>
+        </article>
+{% endfor %}
+{% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+{% endblock %}
